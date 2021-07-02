@@ -4,14 +4,18 @@ import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import { NavigationContainer } from '@react-navigation/native';
+import { ThemeProvider } from 'react-native-paper';
+import { navigationTheme, paperTheme } from './constants/Theme';
 
 export default function App() {
     return (
-        <NavigationContainer>
-            <SafeAreaProvider>
-                <StatusBar />
-                <BottomTabNavigator />
-            </SafeAreaProvider>
+        <NavigationContainer theme={navigationTheme}>
+            <ThemeProvider theme={paperTheme}>
+                <SafeAreaProvider>
+                    <StatusBar />
+                    <BottomTabNavigator />
+                </SafeAreaProvider>
+            </ThemeProvider>
         </NavigationContainer>
     );
 }
