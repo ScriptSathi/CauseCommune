@@ -5,6 +5,7 @@ import { IconButton } from 'react-native-paper';
 import Slider from '@react-native-community/slider';
 import useAudioPlayer from '../hooks/useAudioPlayer';
 import { useTheme } from '../constants/Theme';
+import TimeCode from './TimeCode';
 
 const FORWARD_AND_REWIND_MS = 10000;
 
@@ -22,6 +23,11 @@ const AudioPlayer: FC<AudioPlayerProps> = ({ mp3 }) => {
 
     return (
         <View style={styles.root}>
+            <TimeCode
+                current={playbackStatus?.positionMillis}
+                max={playbackStatus?.durationMillis}
+                style={styles.timeCode}
+            />
             <Slider
                 minimumValue={0}
                 maximumValue={playbackStatus?.durationMillis || 1000}
@@ -58,6 +64,10 @@ interface AudioPlayerProps {
 const styles = StyleSheet.create({
     root: {
         margin: 10,
+    },
+    timeCode: {
+        marginTop: 5,
+        marginBottom: 12,
     },
     controls: {
         display: 'flex',
