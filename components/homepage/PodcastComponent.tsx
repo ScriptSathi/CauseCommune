@@ -5,16 +5,12 @@ import { Dimensions, FlatList, StatusBar, StyleSheet, Text, View } from 'react-n
 import { FC } from 'react';
 import data from '../../data';
 
-const HomeCardCarousel: FC = ({}) => {
+const PodcastComponent: FC = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Nos émissions</Text>
+            <Text style={styles.title}>Les derniers podcast</Text>
             <FlatList
                 data={data}
-                horizontal
-                showsHorizontalScrollIndicator
-                pagingEnabled
-                bounces={false}
                 renderItem={({ item }) => (
                     <Card
                         style={styles.card}
@@ -32,19 +28,15 @@ const HomeCardCarousel: FC = ({}) => {
         </View>
     );
 };
-
-interface HomeCardProps {
-    img: string;
-}
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
         marginTop: StatusBar.currentHeight || 0,
     },
     card: {
-        width: Dimensions.get('window').width - 150,
-        borderRadius: 0,
-        margin: 20,
+        margin: 12,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -52,12 +44,15 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.32,
         elevation: 9,
+        width: Dimensions.get('window').width - 50,
+        borderRadius: 0,
     },
     title: {
-        marginTop: 30,
+        marginTop: 35,
+        marginBottom: 20,
         fontSize: 30,
         textAlign: 'center',
     },
 });
 
-export default HomeCardCarousel;
+export default PodcastComponent;

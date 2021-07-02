@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     },
     title: {
         marginTop: -15,
-        fontFamily: 'roboto',
         fontWeight: 'bold',
         fontSize: 26,
     },
