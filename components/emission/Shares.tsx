@@ -1,63 +1,47 @@
 import React from 'react';
-import { Image, StyleSheet, View, TouchableOpacity, Linking } from 'react-native';
+import { StyleSheet, Share} from 'react-native';
+import { IconButton } from 'react-native-paper';
 
-export type Props = {
+type Props = {
     twitter_link: String;
     fb_link: String;
     url_link: String;
 }
-const Shares: React.FC<Props>  = ({ twitter_link, fb_link, url_link}) => {
-    const redirectUser = (claimUrl) => Linking.openURL(claimUrl);
+const Shares: React.FC<Props>  = ({ url_link}) => {
+    const onShare = async () => {
+        try {
+            const result = await Share.share({
+                message: url_link
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    }
     return(
-        <View style={styles.container}>
-            <TouchableOpacity
-                setOpacityTo={0.5}
-                onPress={() => redirectUser(url_link)}
-            >
-                <Image
-                    style={styles.img_link}
-                    source={ require('../../assets/images/link.png') }
-                />
-            </TouchableOpacity>
-            <TouchableOpacity
-                setOpacityTo={0.5}
-                onPress={() => redirectUser(fb_link)}
-            >
-                <Image
-                    style={styles.img}
-                    source={ require('../../assets/images/facebook.svg') }
-                />
-            </TouchableOpacity>
-            <TouchableOpacity
-                setOpacityTo={0.5}
-                onPress={() => redirectUser(url_link)}
-            >
-                <Image
-                    style={styles.img}
-                    source={ require('../../assets/images/twitter.svg') }
-                />
-            </TouchableOpacity>
-        </View>
+            <IconButton
+                onPress={() => onShare()}
+                icon='share-variant'
+                color="#E73059"
+                size={ 30 }
+                style={styles.button}
+            />
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: "row",
-      flexBasis: 50,
-      alignSelf: "center",
-      alignItems: "center",
+    button: {
+        alignSelf: "center",
+        borderRadius: 0,
     },
-    img: {
-        margin: 12,
-        width: 40,
-        height: 40,
-    },
-    img_link: {
-        width: 50,
-        height: 50,
-    }
 });
 
 export default Shares;
