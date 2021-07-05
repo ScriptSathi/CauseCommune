@@ -50,9 +50,11 @@ const styles = StyleSheet.create({
         fontFamily: "MontserratMedium",
     },
     content: {
+        fontFamily: "TitiliumLight",
         marginLeft: 30,
         marginRight: 18,
         fontSize: 20,
+        lineHeight: 27,
     }
 });
 
