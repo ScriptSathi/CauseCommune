@@ -36,7 +36,7 @@ const EmissionCardPodcast: FC = ({}) => {
                     const inputRange = [(index - 2 ) * ITEM_SIZE, (index + 0.1) * ITEM_SIZE, (index + 0.2) * ITEM_SIZE];
                     const translateY = scrollX.interpolate({
                         inputRange,
-                        outputRange: [0, -50, -45],
+                        outputRange: [0, 0, 10],
                     });
                     return (
                         <View style={{}}>
@@ -48,10 +48,15 @@ const EmissionCardPodcast: FC = ({}) => {
                             >
                                 <Card.Content style={ styles.card }>
                                     <Title style={ [styles.title, item.title.length > 15 ? { width: "100%",} : { width: "70%",} ] }>{ item.title }</Title>
-                                    <Text style={ styles.podcast } >{ item.podcast}</Text>
-                                    <Text style={ styles.content }>
-                                        { item.content.length + item.title.length > 224 ? item.content.slice(0,160) + '\n ' + <Button>click me</Button>: item.content }
-                                    </Text>
+                                    <View style={ styles.framePodcast }>
+                                        <Text style={ styles.podcast } >{ item.podcast.length > 50 ? item.podcast.slice(0,50) + " ..." : item.podcast}</Text>
+                                    </View>
+                                    <Button
+                                        onPress={function (){console.log("toto")}}
+                                        title="Voir plus"
+                                        color="#E73059"
+                                        accessibilityLabel="Ecouter le podcast"
+                                    />
                                 </Card.Content>
                             </Animated.View>
                         </View>
@@ -69,7 +74,8 @@ const styles = StyleSheet.create({
     card: {
         marginTop: 50,
         marginBottom: 30,
-        height: 222,
+        backgroundColor: "white",
+        height: 180,
         width: 177,
         shadowColor: '#000',
         shadowOffset: {
@@ -89,9 +95,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#009C8F",
         color: "white",
     },
+    framePodcast: {
+        height: "50%",
+    },
     podcast: {
         fontFamily: "TitiliumRegular",
-        fontSize: 13,
+        fontSize: 18,
     },
     content: {
         marginTop: 5,

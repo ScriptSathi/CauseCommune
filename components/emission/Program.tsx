@@ -31,7 +31,7 @@ const Program: React.FC<Props>  = ({ data, navigation}) => {
             <Text style={styles.txt_speaker}>{ speaker }</Text>
             <Shares twitter_link={link} fb_link={link} url_link={link} />
             <Content kind={kind} content={content} />
-            <Text style={styles.podcast_title}>Tous nos podcasts</Text>
+            <Text style={styles.podcast_title}>Tous les podcasts</Text>
             <EmissionCardPodcast />
         </ScrollView>
     );
@@ -40,21 +40,14 @@ const Program: React.FC<Props>  = ({ data, navigation}) => {
 const styles = StyleSheet.create({
     background: {
         backgroundColor: "#FEF7F9",
-        flexGrow: 1,
     },
     img: {
-        resizeMode: "cover",
-        width: "100%",
-        height: "100%",
-    },
-    imgIpad: {
-        resizeMode: "contain",
         width: "100%",
         height: "100%",
     },
     imgFrame: {
         marginTop: "5%",
-        marginBottom: "2%",
+        marginBottom: "3%",
         width: "80%",
         height: 200,
         alignSelf: 'center',
