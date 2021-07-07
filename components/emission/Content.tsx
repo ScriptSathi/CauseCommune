@@ -1,29 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useFonts } from 'expo-font';
+import * as Font from 'expo-font';
 
 type Props = {
     kind: String;
     content: String;
 }
 const Content: React.FC<Props>  = ({ kind, content}) => {
-    const [fontsLoaded] = useFonts({
-        'TitiliumRegular': require('../../assets/fonts/TitilliumWeb-Regular.ttf'),
-        'TitiliumLight': require('../../assets/fonts/TitilliumWeb-Light.ttf'),
-        'MontserratMedium': require('../../assets/fonts/Montserrat-Medium.ttf'),
-        'CC-RobotoLight': require('../../assets/fonts/Roboto-Light.ttf'),
-    });
-    if (!fontsLoaded) {
+    const [fontsLoaded, setFontsLoaded] = useState(false)
+    async function loadFonts() {
+        await Font.loadAsync({
+            TitiliumRegular: require('../../assets/fonts/TitilliumWeb-Regular.ttf'),
+            TitiliumLight: require('../../assets/fonts/TitilliumWeb-Light.ttf'),
+            MontserratMedium: require('../../assets/fonts/Montserrat-Medium.ttf'),
+        });
+        setFontsLoaded(true);
+    }
+    loadFonts();
+    if(fontsLoaded) {
+        return (
+            <View style={styles.frame}>
+                <View style={styles.titleFrame}>
+                    <Text style={styles.title}>{kind}</Text>
+                </View>
+                <Text style={styles.content}>{content}</Text>
+            </View>
+        );
+    }
+    else {
         return null;
     }
-    return(
-        <View style={styles.frame} >
-            <View style={styles.titleFrame}>
-                <Text style={styles.title}>{ kind }</Text>
-            </View>
-            <Text style={styles.content}>{ content }</Text>
-        </View>
-    );
 }
 
 const styles = StyleSheet.create({
@@ -31,11 +37,13 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         width: '85%',
         backgroundColor: "white",
-        borderRadius: 0,
-        shadowColor: "black",
-        shadowOpacity: 0.20,
-        shadowRadius: 20,
-        paddingBottom: 20,
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
     },
     titleFrame: {
         marginTop: 15,
@@ -53,6 +61,7 @@ const styles = StyleSheet.create({
         fontFamily: "TitiliumLight",
         marginLeft: 30,
         marginRight: 18,
+        marginBottom: 15,
         fontSize: 20,
         lineHeight: 27,
     }
