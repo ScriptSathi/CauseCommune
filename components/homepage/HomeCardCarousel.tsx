@@ -1,34 +1,26 @@
 import * as React from 'react';
-import { Card, Title } from 'react-native-paper';
-import { Dimensions, FlatList, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { FC } from 'react';
-import data from '../../data';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import CarouselComponent from './CarouselComponent';
 
+const API_URL = `https://cause-commune.fm/wp-json/wp/v2/series`;
 const HomeCardCarousel: FC = ({}) => {
+    const { data, status } = useQuery('emission', () => axios.get(API_URL));
+
     return (
-        <View style={styles.container}>
+        <View>
             <Text style={styles.title}>Nos émissions</Text>
-            <FlatList
-                data={data}
-                horizontal
-                showsHorizontalScrollIndicator
-                pagingEnabled
-                bounces={false}
-                renderItem={({ item }) => (
-                    <Card
-                        style={styles.card}
-                        onPress={() => {
-                            alert('You tapped the button!');
-                        }}
-                    >
-                        <Card.Cover source={{ uri: item.img }} />
-                        <Card.Content>
-                            <Title>{item.title}</Title>
-                        </Card.Content>
-                    </Card>
-                )}
-            />
+            <Text> {status === 'loading' && <div>Chargement...</div>}</Text>
+            <Text>{status === 'error' && <div>Contacter l'administrateur</div>}</Text>
+
+            <View>
+                {data?.data.map((value: { id: string | number | null | undefined }) => (
+                    <CarouselComponent key={value.id} data={value} />
+                ))}
+            </View>
         </View>
     );
 };
@@ -37,22 +29,6 @@ interface HomeCardProps {
     img: string;
 }
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: StatusBar.currentHeight || 0,
-    },
-    card: {
-        width: Dimensions.get('window').width - 150,
-        borderRadius: 0,
-        margin: 20,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.32,
-        elevation: 9,
-    },
     title: {
         marginTop: 30,
         fontSize: 30,

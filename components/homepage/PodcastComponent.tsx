@@ -1,30 +1,26 @@
 import * as React from 'react';
-import { Card, Title } from 'react-native-paper';
-import { Dimensions, FlatList, StatusBar, StyleSheet, Text, View } from 'react-native';
+import ListPodcast from './ListPodcast';
+import { StatusBar, StyleSheet, Text, View } from 'react-native';
 
-import { FC } from 'react';
-import data from '../../data';
+import { FC, useState } from 'react';
 
+import { useQuery } from 'react-query';
+import axios from 'axios';
+
+const API_URL = `https://cause-commune.fm/wp-json/wp/v2/podcast`;
 const PodcastComponent: FC = () => {
+    const { data, status } = useQuery('podcast', () => axios.get(API_URL));
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Les derniers podcast</Text>
-            <FlatList
-                data={data}
-                renderItem={({ item }) => (
-                    <Card
-                        style={styles.card}
-                        onPress={() => {
-                            alert('You tapped the button!');
-                        }}
-                    >
-                        <Card.Cover source={{ uri: item.img }} />
-                        <Card.Content>
-                            <Title>{item.title}</Title>
-                        </Card.Content>
-                    </Card>
-                )}
-            />
+            <Text> {status === 'loading' && <Text>Chargement...</Text>}</Text>
+            <Text>{status === 'error' && <Text>Contacter l'administrateur</Text>}</Text>
+            <View>
+                {data?.data.map(item => (
+                    <ListPodcast key={item.id} item={item} />
+                ))}
+            </View>
         </View>
     );
 };
@@ -34,18 +30,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: StatusBar.currentHeight || 0,
-    },
-    card: {
-        margin: 12,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.32,
-        elevation: 9,
-        width: Dimensions.get('window').width - 50,
-        borderRadius: 0,
     },
     title: {
         marginTop: 35,
