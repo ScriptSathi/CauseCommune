@@ -42,6 +42,8 @@ const styles = StyleSheet.create({
             width: 0,
             height: 5,
         },
+        elevation: 10,
+        zIndex:999,
         shadowOpacity: 0.34,
         shadowRadius: 6.27,
     },
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
         fontFamily: "TitiliumLight",
         marginLeft: 30,
         marginRight: 18,
-        marginBottom: 15,
+        marginBottom: 20,
         fontSize: 20,
         lineHeight: 27,
     }

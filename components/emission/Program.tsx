@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, ScrollView, Dimensions, View } from 'react-native';
+import { Image, StyleSheet, Text, ScrollView, Dimensions, View, Button } from 'react-native';
 import * as Font from 'expo-font';
 import Shares from './Shares';
 import Content from './Content';
 import EmissionCardPodcast from './EmissionCardPodcast';
-type Props = {
-    data: Object;
-}
+import { data } from '../../data.json'
 
-const Program: React.FC<Props>  = ({ data, navigation}) => {
+
+const Program: React.FC  = ({ navigation }) => {
     const [fontsLoaded, setFontsLoaded] = useState(false)
     async function loadFonts() {
         await Font.loadAsync({
@@ -38,7 +37,7 @@ const Program: React.FC<Props>  = ({ data, navigation}) => {
                 <Shares twitter_link={link} fb_link={link} url_link={link} />
                 <Content kind={kind} content={content} />
                 <Text style={styles.podcast_title}>Tous les podcasts</Text>
-                <EmissionCardPodcast />
+                <EmissionCardPodcast navigation={navigation}/>
             </ScrollView>
         );
     }

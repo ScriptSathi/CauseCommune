@@ -1,8 +1,15 @@
 import React, { FC } from 'react';
-import { View } from 'react-native';
+import { Button, View } from 'react-native';
 
-const Home: FC = () => {
-    return <View />;
+const Home: FC = ({ navigation }) => {
+    return(
+        <View>
+            <Button
+                title="Voir l'émission"
+                onPress={() => navigation.navigate('Emission')}
+            />
+        </View>
+    )
 };
 
 export default Home;

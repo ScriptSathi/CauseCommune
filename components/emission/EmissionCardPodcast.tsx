@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Card, Title } from 'react-native-paper';
-import {  FlatList, StyleSheet, Text, View, Button } from 'react-native';
+import { Button, Card, Title } from 'react-native-paper';
+import {  FlatList, StyleSheet, Text, View } from 'react-native';
 import { FC, useState } from 'react';
 import data from '../../dataPodcast.js';
 import * as Font from 'expo-font';
 
-const EmissionCardPodcast: FC = ({}) => {
+const EmissionCardPodcast: FC = ({ navigation }) => {
     const [fontsLoaded, setFontsLoaded] = useState(false)
     async function loadFonts() {
         await Font.loadAsync({
@@ -36,13 +36,13 @@ const EmissionCardPodcast: FC = ({}) => {
                                             style={styles.podcast}>{item.podcast.length > 50 ? item.podcast.slice(0, 50) + " ..." : item.podcast}</Text>
                                     </View>
                                     <Button
-                                        onPress={function() {
-                                            console.log("toto")
-                                        }}
-                                        title="Voir plus"
-                                        color="#E73059"
+                                        onPress={() => navigation.navigate('Player')}
+                                        color="#fff"
                                         accessibilityLabel="Ecouter le podcast"
-                                    />
+                                        style={styles.button}
+                                    >
+                                        Ecouter
+                                    </Button>
                                 </Card.Content>
                             </View>
                         );
@@ -67,13 +67,15 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         height: 180,
         width: 177,
-        shadowColor: '#000',
+        shadowColor: '#000000',
         shadowOffset: {
             width: 0,
             height: 5,
         },
         shadowOpacity: 0.34,
         shadowRadius: 6.27,
+        elevation: 10,
+        zIndex:999,
     },
     title: {
         marginLeft: -16,
@@ -96,6 +98,12 @@ const styles = StyleSheet.create({
         marginTop: 5,
         fontFamily: "TitiliumLight",
         fontSize: 10,
+    },
+    button: {
+        marginTop: 5,
+        width: '100%',
+        height: 30,
+        backgroundColor: '#E73059',
     }
 });
 export default EmissionCardPodcast;
