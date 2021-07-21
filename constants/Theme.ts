@@ -7,8 +7,6 @@ enum Colors {
     BACKGROUND = '#FEF7F9',
     ICON_FOCUSED = '#E03B60',
     ICON_NOT_FOCUSED = '#A3A3A3',
-    SLIDER = 'rgba(185, 120, 139, 0.38)',
-    AUDIO_PLAYER_CONTROLS = '#323232',
 }
 
 export const paperTheme = {
@@ -20,8 +18,6 @@ export const paperTheme = {
         background: Colors.BACKGROUND,
         iconFocused: Colors.ICON_FOCUSED,
         iconNotFocused: Colors.ICON_NOT_FOCUSED,
-        slider: Colors.SLIDER,
-        audioPlayerControl: Colors.AUDIO_PLAYER_CONTROLS,
     },
 };
 
