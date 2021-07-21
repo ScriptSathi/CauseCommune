@@ -14,10 +14,10 @@ const PodcastComponent: FC = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Les derniers podcast</Text>
-            <Text> {status === 'loading' && <Text>Chargement...</Text>}</Text>
-            <Text>{status === 'error' && <Text>Contacter l'administrateur</Text>}</Text>
+            {status === 'loading' && <Text>Chargement...</Text>}
+            {status === 'error' && <Text>Contacter l'administrateur</Text>}
             <View>
-                {data?.data.map(item => (
+                {data?.data.map((item: { id: string | number | null | undefined }) => (
                     <ListPodcast key={item.id} item={item} />
                 ))}
             </View>

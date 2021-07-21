@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Card, Title } from 'react-native-paper';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
+// @ts-ignore
 const ListPodcast = ({ item }) => {
     return (
         <View>

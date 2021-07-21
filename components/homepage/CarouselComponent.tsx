@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { Card, Title } from 'react-native-paper';
-import { Dimensions, FlatList, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, FlatList, PixelRatio, StatusBar, StyleSheet, View } from 'react-native';
 
 // @ts-ignore
 const CarouselComponent = ({ data }) => {
@@ -18,10 +18,7 @@ const CarouselComponent = ({ data }) => {
                                 alert('You tapped the button!');
                             }}
                         >
-                            <Card.Cover source={{ uri: item.image }} />
-                            <Card.Content>
-                                <Title>{item.name}</Title>
-                            </Card.Content>
+                            <Card.Cover style={styles.image} source={{ uri: item.image }} />
                         </Card>
                     </View>
                 )}
@@ -38,11 +35,10 @@ interface ListPodcast {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: StatusBar.currentHeight || 0,
     },
     card: {
-        width: Dimensions.get('window').width - 150,
-        borderRadius: 0,
+        width: Dimensions.get('window').width - 174,
+        borderRadius: 5,
         margin: 20,
         shadowColor: '#000',
         shadowOffset: {
@@ -52,5 +48,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.32,
         elevation: 9,
     },
+    image: { width: PixelRatio.getPixelSizeForLayoutSize(80), height: PixelRatio.getPixelSizeForLayoutSize(80) },
 });
 export default CarouselComponent;
