@@ -8,39 +8,40 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Text } from 'react-native';
 import TitleBar from '../components/TitleBar';
 
+import { QueryClient, QueryClientProvider } from 'react-query';
 const Stack = createStackNavigator();
-
+const queryClient = new QueryClient();
 const HomePageNavigator: FC = () => {
     const theme = useTheme();
     return (
-        <Stack.Navigator>
-            <Stack.Screen
-                name="Home"
-                component={Home}
-                options={{
-                    headerStyle: {
-                        backgroundColor: '#fff',
-                    },
-                    headerTintColor: '#E73059',
-                    // headerTitle: props => <TitleBar name={"Accueil"} />
-                }}
-            />
-            <Stack.Screen
-                name="L'émission"
-                component={Program}
-                options={{
-                    headerStyle: {
-                        backgroundColor: '#fff',
-                    },
-                    headerTintColor: '#E73059',
-                    // headerTitle: props => <TitleBar name={"L'émission"} />
-                }}
-            />
-            <Stack.Screen
-                name="Player"
-                component={Player}
-            />
-        </Stack.Navigator>
+        <QueryClientProvider client={queryClient}>
+            <Stack.Navigator>
+                <Stack.Screen
+                    name='Home'
+                    component={Home}
+                    options={{
+                        headerStyle: {
+                            backgroundColor: '#fff',
+                        },
+                        headerTintColor: '#E73059',
+                        // headerTitle: props => <TitleBar name={"Accueil"} />
+                    }}
+                />
+
+                <Stack.Screen
+                    name="L'émission"
+                    component={Program}
+                    options={{
+                        headerStyle: {
+                            backgroundColor: '#fff',
+                        },
+                        headerTintColor: '#E73059',
+                        // headerTitle: props => <TitleBar name={"L'émission"} />
+                    }}
+                />
+                <Stack.Screen name='Player' component={Player} />
+            </Stack.Navigator>
+        </QueryClientProvider>
     );
 };
 
