@@ -15,7 +15,7 @@ const Program: React.FC = ({ route, navigation }) => {
         'https://cause-commune.fm/wp-json/wp/v2/podcast?series=' + idEmission + '&per_page=30&page=1';
 
     const { data, status } = useQuery('podcast', () => axios.get(API_URL_PODCASTS));
-    console.log(data?.data);
+
     // const [emission, setEmission] = useState([]);
     // data?.data.map((value: { id: string | number | null | undefined }) => emission.push(value));
 
