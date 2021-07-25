@@ -10,6 +10,7 @@ const CarouselComponent = ({ data, navigation }) => {
                 data={data}
                 horizontal
                 bounces={false}
+                showsHorizontalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <View>
                         <Card
@@ -17,7 +18,8 @@ const CarouselComponent = ({ data, navigation }) => {
                             onPress={() => navigation.navigate('L\'émission',
                                 {
                                     dataEmission: item
-                                })}
+                                }
+                            )}
                         >
                             <Card.Cover style={styles.image} source={{ uri: item.image }} />
                         </Card>
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     card: {
-        width: Dimensions.get('window').width - 174,
+        width: Dimensions.get('window').width * 0.5,
         borderRadius: 5,
         margin: 20,
         shadowColor: '#000',
@@ -48,7 +50,10 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.32,
         elevation: 9,
+        zIndex:999,
     },
-    image: { width: PixelRatio.getPixelSizeForLayoutSize(80), height: PixelRatio.getPixelSizeForLayoutSize(80) },
+    image: {
+        width: Dimensions.get('window').width * 0.56,
+    },
 });
 export default CarouselComponent;
