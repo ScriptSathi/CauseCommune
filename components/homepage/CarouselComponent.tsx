@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, Title } from 'react-native-paper';
-import { Dimensions, FlatList, PixelRatio, StatusBar, StyleSheet, View } from 'react-native';
+import { Text, Dimensions, FlatList, PixelRatio, StatusBar, StyleSheet, View } from 'react-native';
 
 // @ts-ignore
-const CarouselComponent = ({ data }) => {
+const CarouselComponent = ({ data, navigation }) => {
     return (
         <View style={styles.container}>
             <FlatList
@@ -14,9 +14,10 @@ const CarouselComponent = ({ data }) => {
                     <View>
                         <Card
                             style={styles.card}
-                            onPress={() => {
-                                alert('You tapped the button!');
-                            }}
+                            onPress={() => navigation.navigate('L\'émission',
+                                {
+                                    dataEmission: item
+                                })}
                         >
                             <Card.Cover style={styles.image} source={{ uri: item.image }} />
                         </Card>

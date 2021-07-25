@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Card, Title } from 'react-native-paper';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import {decode} from 'html-entities';
 
 // @ts-ignore
 const ListPodcast = ({ item }) => {
@@ -14,7 +15,7 @@ const ListPodcast = ({ item }) => {
             >
                 <Card.Cover source={{ uri: item.episode_player_image }} />
                 <Card.Content>
-                    <Title>{item.title.rendered}</Title>
+                    <Title>{decode(item.title.rendered)}</Title>
                 </Card.Content>
             </Card>
         </View>

@@ -13,7 +13,6 @@ const Stack = createStackNavigator();
 export default function App() {
     return (
         <NavigationContainer theme={navigationTheme}>
-            {/*<Program data={data} />*/}
             <ThemeProvider theme={paperTheme}>
                 <SafeAreaProvider>
                     <StatusBar />

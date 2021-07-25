@@ -26,11 +26,11 @@ const Program: React.FC  = ({ navigation, name }) => {
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: "#E73059",
+        backgroundColor: "#fff",
     },
     title:{
         fontSize: 33,
-        color:'#fff',
+        color:'#E73059',
     }
 });
 

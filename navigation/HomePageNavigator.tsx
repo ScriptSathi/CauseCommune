@@ -3,7 +3,7 @@ import Home from '../screens/Home';
 import Player from '../screens/Player';
 import Informations from '../screens/Informations';
 import { useTheme } from '../constants/Theme';
-import Program from '../components/emission/Program';
+import Program from '../screens/Program';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Text } from 'react-native';
 import TitleBar from '../components/TitleBar';
@@ -19,20 +19,21 @@ const HomePageNavigator: FC = () => {
                 component={Home}
                 options={{
                     headerStyle: {
-                        backgroundColor: '#E73059',
+                        backgroundColor: '#fff',
                     },
-                    headerTitle: props => <Text>laisser ce champs vide (from HomePageNavigator)</Text>
+                    headerTintColor: '#E73059',
+                    // headerTitle: props => <TitleBar name={"Accueil"} />
                 }}
             />
             <Stack.Screen
-                name="Emission"
+                name="L'émission"
                 component={Program}
                 options={{
                     headerStyle: {
-                        backgroundColor: '#E73059',
+                        backgroundColor: '#fff',
                     },
-                    headerTintColor: '#fff',
-                    headerTitle: props => <TitleBar name={"L'émission"} />
+                    headerTintColor: '#E73059',
+                    // headerTitle: props => <TitleBar name={"L'émission"} />
                 }}
             />
             <Stack.Screen

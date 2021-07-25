@@ -1,9 +1,7 @@
 import * as React from 'react';
 import ListPodcast from './ListPodcast';
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
-
 import { FC, useState } from 'react';
-
 import { useQuery } from 'react-query';
 import axios from 'axios';
 

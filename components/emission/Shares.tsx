@@ -3,8 +3,6 @@ import { StyleSheet, Share} from 'react-native';
 import { IconButton } from 'react-native-paper';
 
 type Props = {
-    twitter_link: String;
-    fb_link: String;
     url_link: String;
 }
 const Shares: React.FC<Props>  = ({ url_link}) => {
