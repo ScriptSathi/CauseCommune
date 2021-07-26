@@ -16,6 +16,7 @@ export const AudioPlayerContext = createContext<IAudioPlayerContext>({
     onSlidingStart: (value: number) => {},
     onSlidingComplete: (value: number) => {},
     setMp3: (mp3: string) => {},
+    isLoading: false,
 });
 
 interface IAudioPlayerContext {
@@ -29,6 +30,7 @@ interface IAudioPlayerContext {
     onSlidingStart: (value: number) => void;
     onSlidingComplete: (value: number) => void;
     setMp3: (mp3: string) => void;
+    isLoading: boolean;
 }
 
 const AudioPlayerProvider: FC = ({ children }) => {
@@ -51,7 +53,7 @@ const AudioPlayerProvider: FC = ({ children }) => {
             };
             init();
         }
-    }, [mp3]);
+    }, [mp3, setSound, setPlaybackStatus]);
 
     const onPlayPausePress = useCallback(async () => {
         if (sound && playbackStatus) {
@@ -109,6 +111,7 @@ const AudioPlayerProvider: FC = ({ children }) => {
                 onSlidingStart,
                 onSlidingComplete,
                 setMp3,
+                isLoading: !playbackStatus?.isLoaded,
             }}
         >
             {children}

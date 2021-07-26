@@ -7,12 +7,17 @@ import EmissionCardPodcast from '../components/emission/EmissionCardPodcast';
 import getPodcastsQuery from '../queries/getPodcasts.query';
 import { useRoute } from '@react-navigation/native';
 import { Serie } from '../types/Serie';
+import useCustomFonts from '../hooks/useCustomFonts';
 
 const Program: FC = () => {
     const { serie } = useRoute().params as { serie: Serie };
     const { id, image, title, author, link, description, subtitle } = serie;
     const upperCaseTitle = useMemo(() => title.toUpperCase(), [title]);
     const { data: podcasts, status } = useQuery(['/podcasts', id, 1], () => getPodcastsQuery(id.toString(), 1));
+
+    const [fontLoaded] = useCustomFonts();
+
+    if (!fontLoaded) return null;
 
     return (
         <ScrollView style={styles.background}>

@@ -1,7 +1,12 @@
 import React, { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import useCustomFonts from '../../hooks/useCustomFonts';
 
 const Content: FC<ContentProps> = ({ kind, content }) => {
+    const [fontLoaded] = useCustomFonts();
+
+    if (!fontLoaded) return null;
+
     return (
         <View style={styles.frame}>
             <View style={styles.titleFrame}>
