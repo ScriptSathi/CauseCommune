@@ -62,11 +62,6 @@ const AudioPlayer: FC<AudioPlayerProps> = ({ mp3, style }) => {
     );
 };
 
-interface AudioPlayerProps {
-    mp3: string;
-    style?: StyleProp<ViewStyle>;
-}
-
 const styles = StyleSheet.create({
     root: {
         margin: 10,
@@ -84,4 +79,10 @@ const styles = StyleSheet.create({
         height: 20,
     },
 });
+
+interface AudioPlayerProps {
+    mp3: string;
+    style?: StyleProp<ViewStyle>;
+}
+
 export default AudioPlayer;

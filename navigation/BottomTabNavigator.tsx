@@ -1,12 +1,9 @@
 import React, { FC } from 'react';
-import Home from '../screens/Home';
 import Player from '../screens/Player';
 import Informations from '../screens/Informations';
 import { useTheme } from '../constants/Theme';
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Program from '../components/emission/Program';
-import { createStackNavigator } from '@react-navigation/stack';
 import HomePageNavigator from './HomePageNavigator';
 
 const Navigator = createBottomTabNavigator();

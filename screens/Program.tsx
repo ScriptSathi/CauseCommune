@@ -1,64 +1,40 @@
-import React, { useState } from 'react';
-import { Image, StyleSheet, Text, ScrollView, Dimensions, View, Button } from 'react-native';
+import React, { FC, useMemo } from 'react';
+import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useQuery } from 'react-query';
-import * as Font from 'expo-font';
 import Shares from '../components/emission/Shares';
 import Content from '../components/emission/Content';
 import EmissionCardPodcast from '../components/emission/EmissionCardPodcast';
-import axios from 'axios';
+import getPodcastsQuery from '../queries/getPodcasts.query';
+import { useRoute } from '@react-navigation/native';
+import { Serie } from '../types/Serie';
 
-const Program: React.FC = ({ route, navigation }) => {
-    const [fontsLoaded, setFontsLoaded] = useState(false);
-    const { dataEmission } = route.params;
-    const idEmission = dataEmission.id;
-    const API_URL_PODCASTS =
-        'https://cause-commune.fm/wp-json/wp/v2/podcast?series=' + idEmission + '&per_page=30&page=1';
+const Program: FC = () => {
+    const { serie } = useRoute().params as { serie: Serie };
+    const { id, image, title, author, link, description, subtitle } = serie;
+    const upperCaseTitle = useMemo(() => title.toUpperCase(), [title]);
+    const { data: podcasts, status } = useQuery(['/podcasts', id, 1], () => getPodcastsQuery(id.toString(), 1));
 
-    const { data, status } = useQuery('podcast', () => axios.get(API_URL_PODCASTS));
-
-    // const [emission, setEmission] = useState([]);
-    // data?.data.map((value: { id: string | number | null | undefined }) => emission.push(value));
-
-    async function loadFonts() {
-        await Font.loadAsync({
-            TitiliumRegular: require('../assets/fonts/TitilliumWeb-Regular.ttf'),
-            TitiliumLight: require('../assets/fonts/TitilliumWeb-Light.ttf'),
-        });
-        setFontsLoaded(true);
-    }
-    loadFonts();
-    const img = dataEmission.image;
-    const title = dataEmission.name.toUpperCase();
-    const speaker = dataEmission.author;
-    const link = dataEmission.link;
-    const content = dataEmission.description;
-    const subtitle = dataEmission.subtitle;
-
-    if (fontsLoaded) {
-        return (
-            <ScrollView style={styles.background}>
-                <View style={styles.imgFrame}>
-                    <Image
-                        style={[
-                            styles.img,
-                            Dimensions.get('window').width > 900 ? { resizeMode: 'contain' } : { resizeMode: 'cover' },
-                        ]}
-                        source={{ uri: img }}
-                    />
-                </View>
-                <Text style={styles.txt_title}>{title}</Text>
-                <Text style={styles.txt_speaker}>Proposé par {speaker}</Text>
-                <Shares url_link={link} />
-                <Content kind={subtitle} content={content} />
-                <Text style={styles.podcast_title}>Tous les podcasts</Text>
-                {status === 'loading' && <Text>Chargement...</Text>}
-                {status === 'error' && <Text>Contacter l'administrateur</Text>}
-                <EmissionCardPodcast navigation={navigation} dataPodcast={data?.data} emissionName={title}/>
-            </ScrollView>
-        );
-    } else {
-        return null;
-    }
+    return (
+        <ScrollView style={styles.background}>
+            <View style={styles.imgFrame}>
+                <Image
+                    style={[
+                        styles.img,
+                        Dimensions.get('window').width > 900 ? { resizeMode: 'contain' } : { resizeMode: 'cover' },
+                    ]}
+                    source={{ uri: image }}
+                />
+            </View>
+            <Text style={styles.txt_title}>{upperCaseTitle}</Text>
+            <Text style={styles.txt_speaker}>Proposé par {author}</Text>
+            <Shares urlLink={link} />
+            <Content kind={subtitle} content={description} />
+            <Text style={styles.podcast_title}>Tous les podcasts</Text>
+            {status === 'loading' && <Text>Chargement...</Text>}
+            {status === 'error' && <Text>Contactez l'administrateur</Text>}
+            <EmissionCardPodcast podcasts={podcasts} podcastTitle={upperCaseTitle} />
+        </ScrollView>
+    );
 };
 
 const styles = StyleSheet.create({
@@ -74,7 +50,6 @@ const styles = StyleSheet.create({
         marginBottom: '5%',
         width: '80%',
         height: 169,
-        // height: 200, avant le fetch api
         alignSelf: 'center',
     },
     txt_title: {

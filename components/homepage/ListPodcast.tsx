@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { Card, Title } from 'react-native-paper';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import {decode} from 'html-entities';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { decode } from 'html-entities';
+import { Podcast } from '../../types/Podcast';
 
-// @ts-ignore
-const ListPodcast = ({ item }) => {
+const ListPodcast: FC<ListPodcastProps> = ({ item }) => {
     return (
         <View>
             <Card
@@ -22,10 +22,10 @@ const ListPodcast = ({ item }) => {
     );
 };
 
-interface ListPodcast {
-    img: string;
-    title: string;
+interface ListPodcastProps {
+    item: Podcast;
 }
+
 const styles = StyleSheet.create({
     card: {
         margin: 12,

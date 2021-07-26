@@ -1,31 +1,24 @@
 import * as React from 'react';
+import { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
-import { FC, useState } from 'react';
 import { useQuery } from 'react-query';
-import axios from 'axios';
 import CarouselComponent from './CarouselComponent';
+import getSeriesQuery from '../../queries/getSeries.query';
 
-const API_URL = `https://cause-commune.fm/wp-json/wp/v2/series`;
-const HomeCardCarousel: FC = ({ navigation }) => {
-    const { data, status } = useQuery('emission', () => axios.get(API_URL));
-    const [series, setSeries] = useState([]);
-    data?.data.map((value: { id: string | number | null | undefined }) => series.push(value));
-
+const HomeCardCarousel: FC = () => {
+    const { status } = useQuery('/series', getSeriesQuery);
     return (
         <View>
             <Text style={styles.title}>Nos émissions</Text>
             {status === 'loading' && <Text>Chargement...</Text>}
             {status === 'error' && <Text>Contacter l'administrateur</Text>}
             <View>
-                <CarouselComponent navigation={navigation} data={series} />
+                <CarouselComponent />
             </View>
         </View>
     );
 };
-interface HomeCardProps {
-    img: string;
-}
+
 const styles = StyleSheet.create({
     title: {
         marginTop: 30,

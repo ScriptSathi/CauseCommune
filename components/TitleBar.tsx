@@ -1,37 +1,28 @@
-import React, { useState } from 'react';
-import { Image, StyleSheet, Text, ScrollView, Dimensions, View, Button } from 'react-native';
-import * as Font from 'expo-font';
+import React, { FC } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Title } from 'react-native-paper';
 
-type Props = {
-    name: String;
-}
-
-const Program: React.FC  = ({ navigation, name }) => {
-    const [fontsLoaded, setFontsLoaded] = useState(false)
-    async function loadFonts() {
-        await Font.loadAsync({
-            TitiliumRegular: require('../assets/fonts/TitilliumWeb-Regular.ttf'),
-        });
-        setFontsLoaded(true);
-    }
-    loadFonts();
-    return(
+const Program: FC<ProgramProps> = ({ name }) => {
+    return (
         <View style={styles.background}>
-            <Title style={[styles.title, fontsLoaded ? { fontFamily: 'TitiliumRegular'} : {}] }>{ name }</Title>
+            <Title style={[styles.title]}>{name}</Title>
         </View>
     );
-
-}
+};
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: "#fff",
+        backgroundColor: '#fff',
     },
-    title:{
+    title: {
         fontSize: 33,
-        color:'#E73059',
-    }
+        color: '#E73059',
+        fontFamily: 'TitiliumRegular',
+    },
 });
+
+interface ProgramProps {
+    name: string;
+}
 
 export default Program;

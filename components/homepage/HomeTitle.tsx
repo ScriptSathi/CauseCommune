@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
-import { Text, Image, View, StyleSheet } from 'react-native';
-// @ts-ignore
+import { Image, StyleSheet, Text, View } from 'react-native';
 import logo from '../../assets/images/cc-logo.png';
 
 const HomeTitle: FC = () => {

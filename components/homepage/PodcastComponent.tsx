@@ -1,24 +1,19 @@
 import * as React from 'react';
+import { FC } from 'react';
 import ListPodcast from './ListPodcast';
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
-import { FC, useState } from 'react';
 import { useQuery } from 'react-query';
-import axios from 'axios';
+import getAllPodcastsQuery from '../../queries/getAllPodcast.query';
 
-const API_URL = `https://cause-commune.fm/wp-json/wp/v2/podcast`;
 const PodcastComponent: FC = () => {
-    const { data, status } = useQuery('podcast', () => axios.get(API_URL));
+    const { data: podcasts, status } = useQuery('/podcasts', getAllPodcastsQuery);
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Les derniers podcast</Text>
             {status === 'loading' && <Text>Chargement...</Text>}
             {status === 'error' && <Text>Contacter l'administrateur</Text>}
-            <View>
-                {data?.data.map((item: { id: string | number | null | undefined }) => (
-                    <ListPodcast key={item.id} item={item} />
-                ))}
-            </View>
+            <View>{podcasts && podcasts.map(item => <ListPodcast key={item.id} item={item} />)}</View>
         </View>
     );
 };

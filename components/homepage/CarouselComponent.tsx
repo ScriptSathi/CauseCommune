@@ -1,40 +1,42 @@
-import React from 'react';
-import { Card, Title } from 'react-native-paper';
-import { Text, Dimensions, FlatList, PixelRatio, StatusBar, StyleSheet, View } from 'react-native';
+import React, { FC } from 'react';
+import { Card } from 'react-native-paper';
+import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useQuery } from 'react-query';
+import getSeriesQuery from '../../queries/getSeries.query';
 
-// @ts-ignore
-const CarouselComponent = ({ data, navigation }) => {
+const CarouselComponent: FC = () => {
+    const navigation = useNavigation();
+    const { data: series, isLoading, refetch } = useQuery('/series', getSeriesQuery);
     return (
         <View style={styles.container}>
             <FlatList
-                data={data}
+                refreshing={isLoading}
+                onRefresh={() => refetch()}
+                data={series}
                 horizontal
                 bounces={false}
                 showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => (
+                renderItem={({ item: serie }) => (
                     <View>
                         <Card
                             style={styles.card}
-                            onPress={() => navigation.navigate('L\'émission',
-                                {
-                                    dataEmission: item
-                                }
-                            )}
+                            onPress={() =>
+                                navigation.navigate("L'émission", {
+                                    serie,
+                                })
+                            }
                         >
-                            <Card.Cover style={styles.image} source={{ uri: item.image }} />
+                            <Card.Cover style={styles.image} source={{ uri: serie.image }} />
                         </Card>
                     </View>
                 )}
-                keyExtractor={(item, index) => String(index)}
+                keyExtractor={(item, index) => index.toString()}
             />
         </View>
     );
 };
 
-interface ListPodcast {
-    img: string;
-    title: string;
-}
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -50,7 +52,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.32,
         elevation: 9,
-        zIndex:999,
+        zIndex: 999,
     },
     image: {
         width: Dimensions.get('window').width * 0.56,
