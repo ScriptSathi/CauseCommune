@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { IconButton } from 'react-native-paper';
@@ -6,8 +6,6 @@ import Slider from '@react-native-community/slider';
 import useAudioPlayer from '../../hooks/useAudioPlayer';
 import { useTheme } from '../../constants/Theme';
 import TimeCode from './TimeCode';
-
-const FORWARD_AND_REWIND_MS = 10000;
 
 const AudioPlayer: FC<AudioPlayerProps> = ({ mp3, style }) => {
     const theme = useTheme();
@@ -19,7 +17,12 @@ const AudioPlayer: FC<AudioPlayerProps> = ({ mp3, style }) => {
         rewind,
         onSlidingStart,
         onSlidingComplete,
-    } = useAudioPlayer(mp3, FORWARD_AND_REWIND_MS);
+        setMp3,
+    } = useAudioPlayer();
+
+    useEffect(() => {
+        setMp3(mp3);
+    }, [mp3]);
 
     return (
         <View style={[styles.root, style]}>

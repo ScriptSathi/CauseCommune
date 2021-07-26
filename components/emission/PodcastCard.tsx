@@ -2,13 +2,29 @@ import { decode } from 'html-entities';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Card, Title } from 'react-native-paper';
 import * as React from 'react';
-import { FC, useMemo } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { Podcast } from '../../types/Podcast';
 import { useNavigation } from '@react-navigation/native';
+import useAudioPlayer from '../../hooks/useAudioPlayer';
 
 const PodcastCard: FC<PodcastCardProps> = ({ podcast, podcastTitle }) => {
     const navigation = useNavigation();
     const title = useMemo(() => decode(podcast.title.rendered), [podcast.title.rendered]);
+    const playerParams = useMemo(
+        () => ({
+            mp3: podcast.meta.audio_file,
+            title: decode(podcast.title.rendered),
+            image: podcast.episode_player_image,
+        }),
+        [podcast]
+    );
+
+    const { stop } = useAudioPlayer();
+    const onListenToPodcastPress = useCallback(async () => {
+        await stop();
+        navigation.navigate('Player', playerParams);
+    }, [playerParams, stop]);
+
     return (
         <View>
             <Card.Content style={styles.card}>
@@ -19,13 +35,7 @@ const PodcastCard: FC<PodcastCardProps> = ({ podcast, podcastTitle }) => {
                     <Text style={styles.podcast}>{title.length > 40 ? title.slice(0, 40) + ' ...' : title}</Text>
                 </View>
                 <Button
-                    onPress={() =>
-                        navigation.navigate('Player', {
-                            mp3: podcast.meta.audio_file,
-                            title: podcast.title.rendered,
-                            image: podcast.episode_player_image,
-                        })
-                    }
+                    onPress={onListenToPodcastPress}
                     color='#fff'
                     accessibilityLabel='Écouter le podcast'
                     style={styles.button}
