@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text } from 'react-native';
 import { useQuery } from 'react-query';
 import Shares from '../components/emission/Shares';
 import Content from '../components/emission/Content';
@@ -8,6 +8,7 @@ import getPodcastsQuery from '../queries/getPodcasts.query';
 import { useRoute } from '@react-navigation/native';
 import { Serie } from '../types/Serie';
 import useCustomFonts from '../hooks/useCustomFonts';
+import Layout from '../constants/Layout';
 
 const Program: FC = () => {
     const { serie } = useRoute().params as { serie: Serie };
@@ -21,15 +22,7 @@ const Program: FC = () => {
 
     return (
         <ScrollView style={styles.background}>
-            <View style={styles.imgFrame}>
-                <Image
-                    style={[
-                        styles.img,
-                        Dimensions.get('window').width > 900 ? { resizeMode: 'contain' } : { resizeMode: 'cover' },
-                    ]}
-                    source={{ uri: image }}
-                />
-            </View>
+            <Image style={styles.img} source={{ uri: image }} />
             <Text style={styles.txt_title}>{upperCaseTitle}</Text>
             <Text style={styles.txt_speaker}>Proposé par {author}</Text>
             <Shares urlLink={link} />
@@ -45,10 +38,13 @@ const Program: FC = () => {
 const styles = StyleSheet.create({
     background: {
         backgroundColor: '#FEF7F9',
+        flex: 1,
     },
     img: {
-        width: '100%',
-        height: '100%',
+        height: Layout.width - 40,
+        aspectRatio: 1,
+        resizeMode: 'contain',
+        marginVertical: 20,
     },
     imgFrame: {
         marginTop: '5%',

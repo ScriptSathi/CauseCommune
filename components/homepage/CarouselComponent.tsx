@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Card } from 'react-native-paper';
-import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useQuery } from 'react-query';
 import getSeriesQuery from '../../queries/getSeries.query';
@@ -42,9 +42,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     card: {
-        width: Dimensions.get('window').width * 0.5,
         borderRadius: 5,
-        margin: 20,
+        marginVertical: 20,
+        marginHorizontal: 10,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -52,10 +52,14 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.32,
         elevation: 9,
-        zIndex: 999,
+        width: 200,
+        height: 200,
     },
     image: {
-        width: Dimensions.get('window').width * 0.56,
+        margin: 5,
+        resizeMode: 'contain',
+        aspectRatio: 1,
+        flex: 1,
     },
 });
 export default CarouselComponent;

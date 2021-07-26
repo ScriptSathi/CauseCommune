@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Card, Title } from 'react-native-paper';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, Image, StyleSheet, View } from 'react-native';
 import { decode } from 'html-entities';
 import { Podcast } from '../../types/Podcast';
 
@@ -13,7 +13,7 @@ const ListPodcast: FC<ListPodcastProps> = ({ item }) => {
                     alert('You tapped the button!');
                 }}
             >
-                <Card.Cover source={{ uri: item.episode_player_image }} />
+                <Image source={{ uri: item.episode_player_image }} style={styles.image} />
                 <Card.Content>
                     <Title>{decode(item.title.rendered)}</Title>
                 </Card.Content>
@@ -38,6 +38,13 @@ const styles = StyleSheet.create({
         elevation: 9,
         width: (Dimensions.get('window').width * 80) / 100,
         borderRadius: 0,
+        flex: 1,
+        paddingTop: 0,
+    },
+    image: {
+        height: 300,
+        aspectRatio: 1,
+        resizeMode: 'contain',
     },
 });
 export default ListPodcast;
