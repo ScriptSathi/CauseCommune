@@ -3,8 +3,8 @@ import React, { FC } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import Slider from '@react-native-community/slider';
-import useAudioPlayer from '../hooks/useAudioPlayer';
-import { useTheme } from '../constants/Theme';
+import useAudioPlayer from '../../hooks/useAudioPlayer';
+import { useTheme } from '../../constants/Theme';
 import TimeCode from './TimeCode';
 
 const FORWARD_AND_REWIND_MS = 10000;

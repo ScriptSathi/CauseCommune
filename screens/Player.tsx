@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from 'react';
-import AudioPlayer from '../components/AudioPlayer';
+import React, { FC, useEffect, useMemo, useState } from 'react';
+import AudioPlayer from '../components/player/AudioPlayer';
 import { Image, SafeAreaView, StyleSheet } from 'react-native';
 import { Title } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
@@ -7,11 +7,16 @@ import { useRoute } from '@react-navigation/native';
 const Player: FC = () => {
     // Testing a way to maintain aspect ratio on images without knowing its dimensions in advance
     const [aspectRatio, setAspectRatio] = useState(1);
-    const {
-        mp3 = 'https://cause-commune.fm/avv/29-AVV-Paul%20Citron-Ainsi%20va%20la%20ville.mp3',
-        title = 'Ainsi va la ville',
-        image = 'https://cause-commune.fm/wp-content/uploads/2019/11/avv-2.jpg',
-    } = useRoute().params as { mp3: string; title: string; image: string };
+    const route = useRoute();
+    const { mp3, title, image } = useMemo(() => {
+        const params = route.params as { mp3: string; title: string; image: string };
+        if (params?.mp3 && params?.title && params?.image) return params;
+        return {
+            mp3: 'https://cause-commune.fm/avv/29-AVV-Paul%20Citron-Ainsi%20va%20la%20ville.mp3',
+            title: 'Ainsi va la ville',
+            image: 'https://cause-commune.fm/wp-content/uploads/2019/11/avv-2.jpg',
+        };
+    }, [route.params]);
 
     useEffect(() => Image.getSize(image, (width, height) => setAspectRatio(width / height)), [image]);
 

@@ -21,7 +21,9 @@ const PodcastCard: FC<PodcastCardProps> = ({ podcast, podcastTitle }) => {
                 <Button
                     onPress={() =>
                         navigation.navigate('Player', {
-                            dataPodcast: podcast,
+                            mp3: podcast.meta.audio_file,
+                            title: podcast.title.rendered,
+                            image: podcast.episode_player_image,
                         })
                     }
                     color='#fff'
