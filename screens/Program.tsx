@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     img: {
         height: Layout.width - 40,
         aspectRatio: 1,
+        alignSelf: 'center',
         resizeMode: 'contain',
         marginVertical: 20,
     },

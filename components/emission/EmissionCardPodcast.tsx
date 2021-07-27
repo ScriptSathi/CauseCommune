@@ -11,7 +11,6 @@ const EmissionCardPodcast: FC<EmissionCardPodcastProps> = ({ podcasts = [], podc
                 data={podcasts}
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                pagingEnabled
                 bounces={false}
                 scrollEventThrottle={16}
                 keyExtractor={item => item.id.toString()}

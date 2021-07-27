@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
         paddingTop: 0,
     },
     image: {
+        marginTop: 5,
         height: 300,
-        aspectRatio: 1,
         resizeMode: 'contain',
     },
 });
