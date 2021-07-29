@@ -17,6 +17,7 @@ const HomePageNavigator: FC = () => {
                         backgroundColor: '#fff',
                     },
                     headerTintColor: theme.colors.primary,
+                    headerShown: false,
                 }}
             />
 

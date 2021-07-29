@@ -1,16 +1,19 @@
 import * as React from 'react';
 import { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useQuery } from 'react-query';
 import CarouselComponent from './CarouselComponent';
 import getSeriesQuery from '../../queries/getSeries.query';
+import useCustomFonts from '../../hooks/useCustomFonts';
 
 const HomeCardCarousel: FC = () => {
     const { status } = useQuery('/series', getSeriesQuery);
+    const [loaded] = useCustomFonts();
+    if (!loaded) return null;
     return (
         <View>
             <Text style={styles.title}>Nos émissions</Text>
-            {status === 'loading' && <Text>Chargement...</Text>}
+            {status === 'loading' && <ActivityIndicator size='small' color='#E73059' />}
             {status === 'error' && <Text>Contacter l'administrateur</Text>}
             <View>
                 <CarouselComponent />
@@ -24,6 +27,7 @@ const styles = StyleSheet.create({
         marginTop: 30,
         fontSize: 30,
         textAlign: 'center',
+        fontFamily: 'TitiliumRegular',
     },
 });
 

@@ -1,2 +1,1 @@
-import './loadFonts';
 import './ignoreFlatlistWarning';

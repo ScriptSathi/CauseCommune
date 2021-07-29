@@ -5,9 +5,12 @@ import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
 import { useQuery } from 'react-query';
 import getAllPodcastsQuery from '../../queries/getAllPodcast.query';
 import { ActivityIndicator } from 'react-native-paper';
+import useCustomFonts from '../../hooks/useCustomFonts';
 
 const PodcastComponent: FC = () => {
     const { data: podcasts, status } = useQuery('/podcasts', getAllPodcastsQuery);
+    const [loaded] = useCustomFonts();
+    if (!loaded) return null;
 
     return (
         <View style={styles.container}>
@@ -37,6 +40,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         fontSize: 30,
         textAlign: 'center',
+        fontFamily: 'TitiliumRegular',
     },
     podcastFrame: {
         width: (Dimensions.get('window').width * 87) / 100,
