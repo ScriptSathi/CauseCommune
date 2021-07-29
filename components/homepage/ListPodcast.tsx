@@ -1,26 +1,19 @@
-import React, { FC, useCallback, useMemo } from 'react';
+import React, { FC, useCallback } from 'react';
 import { Card, Title } from 'react-native-paper';
 import { Dimensions, Image, StyleSheet, View } from 'react-native';
 import { decode } from 'html-entities';
 import { Podcast } from '../../types/Podcast';
 import { useNavigation } from '@react-navigation/native';
 import useAudioPlayer from '../../hooks/useAudioPlayer';
+import getPlayerArguments from '../../fns/getPlayerArguments';
 
 const ListPodcast: FC<ListPodcastProps> = ({ item }) => {
     const navigation = useNavigation();
     const { stop } = useAudioPlayer();
-    const playerParams = useMemo(
-        () => ({
-            mp3: item.meta.audio_file,
-            title: decode(item.title.rendered),
-            image: item.episode_player_image,
-        }),
-        [item]
-    );
     const onPress = useCallback(async () => {
         await stop();
-        navigation.navigate('Player', playerParams);
-    }, [stop]);
+        navigation.navigate('Player', getPlayerArguments(item));
+    }, [stop, item]);
 
     return (
         <View>

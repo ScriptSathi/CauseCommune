@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import './startup/ALL_STARTUP_PROCESSES';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,8 +12,6 @@ import AudioPlayerProvider from './components/player/AudioPlayerProvider';
 const queryClient = new QueryClient();
 
 const App: FC = () => {
-    const [areFontsLoading, setAreFontsLoading] = useState(true);
-
     return (
         <SafeAreaProvider>
             <QueryClientProvider client={queryClient}>

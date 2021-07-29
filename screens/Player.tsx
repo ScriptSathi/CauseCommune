@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useMemo } from 'react';
 import AudioPlayer from '../components/player/AudioPlayer';
 import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Title } from 'react-native-paper';
@@ -6,22 +6,17 @@ import { useRoute } from '@react-navigation/native';
 import useAudioPlayer from '../hooks/useAudioPlayer';
 import { useQuery } from 'react-query';
 import getAllPodcastsQuery from '../queries/getAllPodcast.query';
-import { decode } from 'html-entities';
+import getPlayerArguments from '../fns/getPlayerArguments';
 
 const Player: FC = () => {
     // Testing a way to maintain aspect ratio on images without knowing its dimensions in advance
     const { data: podcasts } = useQuery('/podcasts', getAllPodcastsQuery);
-    const [aspectRatio, setAspectRatio] = useState(1);
     const route = useRoute();
     const { mp3, title, image } = useMemo(() => {
         const params = route.params as { mp3: string; title: string; image: string };
         if (params?.mp3 && params?.title && params?.image) return params;
         if (podcasts) {
-            return {
-                mp3: podcasts[0].meta.audio_file,
-                title: decode(podcasts[0].title.rendered),
-                image: podcasts[0].episode_player_image,
-            };
+            return getPlayerArguments(podcasts[0]);
         }
         return {
             mp3: 'https://cause-commune.fm/avv/29-AVV-Paul%20Citron-Ainsi%20va%20la%20ville.mp3',
@@ -30,14 +25,12 @@ const Player: FC = () => {
         };
     }, [route.params]);
 
-    useEffect(() => Image.getSize(image, (width, height) => setAspectRatio(width / height)), [image]);
-
     const { isLoading } = useAudioPlayer();
 
     return (
         <SafeAreaView style={styles.root}>
             <View style={styles.imageContainer}>
-                <Image source={{ uri: image }} style={[styles.image, { aspectRatio }]} />
+                <Image source={{ uri: image }} style={[styles.image]} />
                 {isLoading && <ActivityIndicator />}
             </View>
             <Title style={styles.title}>{title}</Title>
@@ -50,11 +43,12 @@ const styles = StyleSheet.create({
     imageContainer: {
         flex: 1,
         position: 'relative',
+        alignItems: 'center',
     },
     image: {
-        flex: 1,
+        height: '100%',
         resizeMode: 'contain',
-        margin: 10,
+        aspectRatio: 1,
     },
     spinner: {
         position: 'absolute',

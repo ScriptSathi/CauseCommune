@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FC } from 'react';
 import ListPodcast from './ListPodcast';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
 import { useQuery } from 'react-query';
 import getAllPodcastsQuery from '../../queries/getAllPodcast.query';
 import { ActivityIndicator } from 'react-native-paper';
@@ -14,23 +14,22 @@ const PodcastComponent: FC = () => {
             <Text style={styles.title}>Les derniers podcasts</Text>
             {status === 'loading' && (
                 <Text>
-                    {' '}
                     <ActivityIndicator size='small' color='#E73059' />
                 </Text>
             )}
             {status === 'error' && <Text>Contacter l'administrateur</Text>}
-            <Text style={styles.podcastFrame}>
-                {podcasts?.map(item => (
-                    <ListPodcast key={item.id} item={item} />
-                ))}
-            </Text>
+            <FlatList
+                data={podcasts}
+                renderItem={({ item }) => <ListPodcast item={item} />}
+                keyExtractor={item => item.id.toString()}
+            />
         </View>
     );
 };
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
     },
     title: {

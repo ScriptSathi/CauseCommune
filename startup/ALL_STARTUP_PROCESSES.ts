@@ -1,1 +1,2 @@
 import './loadFonts';
+import './ignoreFlatlistWarning';

@@ -39,17 +39,43 @@ const AudioPlayerProvider: FC = ({ children }) => {
     const [shouldPlayOnRelease, setShouldPlayOnRelease] = useState(false);
     const [mp3, setMp3] = useState<null | string>(null);
 
+    /*useEffect(() => {
+        if (mp3) {
+            const init = async () => {
+                try {
+                    const { sound, status } = await Audio.Sound.createAsync(
+                        { uri: mp3 },
+                        { shouldPlay: true },
+                        playbackStatus => setPlaybackStatus(playbackStatus as PlaybackStatus),
+                        false
+                    );
+                    setSound(sound);
+                    setPlaybackStatus(status as PlaybackStatus);
+                } catch (e) {
+                    console.error(e);
+                }
+            };
+            init();
+        }
+    }, [mp3, setSound, setPlaybackStatus]);*/
+
     useEffect(() => {
         if (mp3) {
             const init = async () => {
-                const { sound, status } = await Audio.Sound.createAsync(
-                    { uri: mp3 },
-                    { shouldPlay: true },
-                    playbackStatus => setPlaybackStatus(playbackStatus as PlaybackStatus),
-                    false
-                );
-                setSound(sound);
-                setPlaybackStatus(status as PlaybackStatus);
+                try {
+                    const sound = new Audio.Sound();
+                    const playbackStatus = (await sound.loadAsync(
+                        { uri: mp3 },
+                        { shouldPlay: true }
+                    )) as PlaybackStatus;
+                    sound.setOnPlaybackStatusUpdate(status => {
+                        setPlaybackStatus(status as PlaybackStatus);
+                    });
+                    setPlaybackStatus(playbackStatus);
+                    setSound(sound);
+                } catch (e) {
+                    console.error(e);
+                }
             };
             init();
         }
