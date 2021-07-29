@@ -4,14 +4,25 @@ import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Title } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 import useAudioPlayer from '../hooks/useAudioPlayer';
+import { useQuery } from 'react-query';
+import getAllPodcastsQuery from '../queries/getAllPodcast.query';
+import { decode } from 'html-entities';
 
 const Player: FC = () => {
     // Testing a way to maintain aspect ratio on images without knowing its dimensions in advance
+    const { data: podcasts } = useQuery('/podcasts', getAllPodcastsQuery);
     const [aspectRatio, setAspectRatio] = useState(1);
     const route = useRoute();
     const { mp3, title, image } = useMemo(() => {
         const params = route.params as { mp3: string; title: string; image: string };
         if (params?.mp3 && params?.title && params?.image) return params;
+        if (podcasts) {
+            return {
+                mp3: podcasts[0].meta.audio_file,
+                title: decode(podcasts[0].title.rendered),
+                image: podcasts[0].episode_player_image,
+            };
+        }
         return {
             mp3: 'https://cause-commune.fm/avv/29-AVV-Paul%20Citron-Ainsi%20va%20la%20ville.mp3',
             title: 'Ainsi va la ville',
