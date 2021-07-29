@@ -68,14 +68,18 @@ const AudioPlayerProvider: FC = ({ children }) => {
 
     const fastForward = useCallback(
         () => sound?.setPositionAsync((playbackStatus?.positionMillis || 0) + FORWARD_AND_REWIND_MS),
-        [sound?.setPositionAsync, playbackStatus?.positionMillis, FORWARD_AND_REWIND_MS]
+        [sound, playbackStatus?.positionMillis, FORWARD_AND_REWIND_MS]
     );
     const rewind = useCallback(
         () => sound?.setPositionAsync((playbackStatus?.positionMillis || 0) - FORWARD_AND_REWIND_MS),
-        [sound?.setPositionAsync, playbackStatus?.positionMillis, FORWARD_AND_REWIND_MS]
+        [sound, playbackStatus?.positionMillis, FORWARD_AND_REWIND_MS]
     );
     const reset = useCallback(() => sound?.setPositionAsync(0), [sound?.setPositionAsync]);
-    const stop = useCallback(() => sound?.stopAsync(), [sound?.stopAsync]);
+    const stop = useCallback(async () => {
+        await sound?.unloadAsync();
+        setSound(null);
+        setPlaybackStatus(null);
+    }, [sound, setSound, setPlaybackStatus]);
 
     const onSlidingStart = useCallback(
         (value: number) => {
@@ -87,7 +91,7 @@ const AudioPlayerProvider: FC = ({ children }) => {
                 setShouldPlayOnRelease(false);
             }
         },
-        [playbackStatus?.isPlaying, sound?.pauseAsync, setShouldPlayOnRelease]
+        [playbackStatus, sound, setShouldPlayOnRelease]
     );
 
     const onSlidingComplete = useCallback(
@@ -95,7 +99,7 @@ const AudioPlayerProvider: FC = ({ children }) => {
             sound?.setPositionAsync(value);
             if (shouldPlayOnRelease) sound?.playAsync();
         },
-        [sound?.setPositionAsync, shouldPlayOnRelease, sound?.playAsync]
+        [sound, shouldPlayOnRelease]
     );
 
     return (
