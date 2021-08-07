@@ -8,6 +8,7 @@ import { ThemeProvider } from 'react-native-paper';
 import { navigationTheme, paperTheme } from './constants/Theme';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AudioPlayerProvider from './components/player/AudioPlayerProvider';
+import { StatusBar } from 'react-native';
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,10 @@ const App: FC = () => {
     return (
         <SafeAreaProvider>
             <QueryClientProvider client={queryClient}>
+                <StatusBar
+                    animated={true}
+                    backgroundColor="#E73059"
+                />
                 <NavigationContainer theme={navigationTheme}>
                     <ThemeProvider theme={paperTheme}>
                         <AudioPlayerProvider>
