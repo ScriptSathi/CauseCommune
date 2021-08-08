@@ -23,7 +23,6 @@ const Program: FC = () => {
     return (
         <ScrollView style={styles.background}>
             <Image style={styles.img} source={{ uri: image }} />
-            <Text style={styles.txt_title}>{upperCaseTitle}</Text>
             <Text style={styles.txt_speaker}>Proposé par {author}</Text>
             <Shares urlLink={link} />
             <Content kind={subtitle} content={description} />
@@ -53,13 +52,6 @@ const styles = StyleSheet.create({
         width: '80%',
         height: 169,
         alignSelf: 'center',
-    },
-    txt_title: {
-        fontFamily: 'TitiliumRegular',
-        marginHorizontal: 20,
-        fontSize: 40,
-        textAlign: 'center',
-        lineHeight: 48,
     },
     txt_speaker: {
         fontFamily: 'TitiliumLight',
