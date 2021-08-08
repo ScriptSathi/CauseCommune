@@ -19,13 +19,12 @@ const PodcastCard: FC<PodcastCardProps> = ({ podcast, podcastTitle }) => {
     }, [podcast, stop]);
 
     return (
-        <View>
             <Card.Content style={styles.card}>
                 <Title style={[styles.title, podcastTitle.length > 15 ? { width: '90%' } : { width: '70%' }]}>
                     {podcastTitle}
                 </Title>
                 <View style={styles.framePodcast}>
-                    <Text style={styles.podcast}>{title.length > 40 ? title.slice(0, 40) + ' ...' : title}</Text>
+                    <Text style={styles.podcast}>{title.length > 40 ? title.slice(0, 40) + ' ...' : "aaefaafafa ah fafahfahfahfheafeafeahfafahfahfahfheafeafeah f"}</Text>
                 </View>
                 <Button
                     onPress={onListenToPodcastPress}
@@ -33,10 +32,9 @@ const PodcastCard: FC<PodcastCardProps> = ({ podcast, podcastTitle }) => {
                     accessibilityLabel='Écouter le podcast'
                     style={styles.button}
                 >
-                    Écouter
+                    <Text style={styles.buttonTxt}>Écouter</Text>
                 </Button>
             </Card.Content>
-        </View>
     );
 };
 
@@ -46,7 +44,6 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         marginHorizontal: 12,
         backgroundColor: 'white',
-        height: 180,
         width: 177,
         shadowColor: '#000000',
         shadowOffset: {
@@ -61,6 +58,7 @@ const styles = StyleSheet.create({
     title: {
         marginLeft: -16,
         fontSize: 13,
+        marginTop: -1,
         fontFamily: 'TitiliumRegular',
         paddingHorizontal: 10,
         paddingTop: 5,
@@ -71,7 +69,7 @@ const styles = StyleSheet.create({
         lineHeight: 16,
     },
     framePodcast: {
-        height: '50%',
+        alignSelf: 'center',
     },
     podcast: {
         fontFamily: 'TitiliumRegular',
@@ -83,11 +81,19 @@ const styles = StyleSheet.create({
         fontSize: 10,
     },
     button: {
-        marginTop: 5,
-        width: '100%',
+        width: '80%',
         height: 30,
         backgroundColor: '#E73059',
+        fontSize: 5,
+        alignContent: 'flex-end',
+        alignSelf: 'center',
+        marginBottom: 10,
+        marginTop: 10,
     },
+    buttonTxt: {
+        marginTop: -5,
+        fontSize: 10,
+    }
 });
 
 interface PodcastCardProps {
