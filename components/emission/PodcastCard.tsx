@@ -12,19 +12,42 @@ const PodcastCard: FC<PodcastCardProps> = ({ podcast, podcastTitle }) => {
     const navigation = useNavigation();
     const title = useMemo(() => decode(podcast.title.rendered), [podcast.title.rendered]);
 
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const date = useMemo(() => decode(podcast.date), [podcast.date])
+
     const { stop } = useAudioPlayer();
     const onListenToPodcastPress = useCallback(async () => {
         await stop();
         navigation.navigate('Player', getPlayerArguments(podcast));
     }, [podcast, stop]);
 
+    function formatDateTimeToString(date){
+        const mounth = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre']
+        let formatedDate = date.split('-')
+        const temp = formatedDate[0]
+        formatedDate[0] = formatedDate[2].substring(0, 2)
+        formatedDate[1] = mounth[formatedDate[1] - 1]
+        formatedDate[2] = temp
+
+        return formatedDate.join(' ')
+    }
     return (
             <Card.Content style={styles.card}>
                 <Title style={[styles.title, podcastTitle.length > 15 ? { width: '90%' } : { width: '70%' }]}>
                     {podcastTitle}
                 </Title>
-                <View style={styles.framePodcast}>
-                    <Text style={styles.podcast}>{title.length > 40 ? title.slice(0, 40) + ' ...' : "aaefaafafa ah fafahfahfahfheafeafeahfafahfahfahfheafeafeah f"}</Text>
+                <View style={styles.frameDateText}>
+                    <Text style={styles.dateText}>
+                        {"Publié le : " + formatDateTimeToString(date)}
+                    </Text>
+                </View>
+                <View style={styles.frameContentPodcast}>
+                    <Text
+                        numberOfLines={3}
+                        style={styles.podcastContent}
+                    >
+                        {title}
+                    </Text>
                 </View>
                 <Button
                     onPress={onListenToPodcastPress}
@@ -68,10 +91,17 @@ const styles = StyleSheet.create({
         color: 'white',
         lineHeight: 16,
     },
-    framePodcast: {
+    frameDateText: {
         alignSelf: 'center',
     },
-    podcast: {
+    dateText: {
+        fontSize: 11,
+    },
+    frameContentPodcast: {
+        alignSelf: 'center',
+        height: 80,
+    },
+    podcastContent: {
         fontFamily: 'TitiliumRegular',
         fontSize: 18,
     },
@@ -87,7 +117,7 @@ const styles = StyleSheet.create({
         fontSize: 5,
         alignContent: 'flex-end',
         alignSelf: 'center',
-        marginBottom: 10,
+        marginBottom: 15,
         marginTop: 10,
     },
     buttonTxt: {
