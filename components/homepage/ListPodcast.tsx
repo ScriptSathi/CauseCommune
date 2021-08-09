@@ -6,8 +6,11 @@ import { Podcast } from '../../types/Podcast';
 import { useNavigation } from '@react-navigation/native';
 import useAudioPlayer from '../../hooks/useAudioPlayer';
 import getPlayerArguments from '../../fns/getPlayerArguments';
+import useCustomFonts from '../../hooks/useCustomFonts';
 
 const ListPodcast: FC<ListPodcastProps> = ({ item }) => {
+    const [fontLoaded] = useCustomFonts();
+
     const navigation = useNavigation();
     const { stop } = useAudioPlayer();
     const onPress = useCallback(async () => {
@@ -15,12 +18,13 @@ const ListPodcast: FC<ListPodcastProps> = ({ item }) => {
         navigation.navigate('Player', getPlayerArguments(item));
     }, [stop, item]);
 
+    if (!fontLoaded) return null;
     return (
         <View>
             <Card style={styles.card} onPress={onPress}>
                 <Image source={{ uri: item.episode_player_image }} style={styles.image} />
                 <Card.Content>
-                    <Title>{decode(item.title.rendered)}</Title>
+                    <Title style={styles.podcastTitle}>{decode(item.title.rendered)}</Title>
                 </Card.Content>
             </Card>
         </View>
@@ -33,6 +37,7 @@ interface ListPodcastProps {
 
 const styles = StyleSheet.create({
     card: {
+        borderRadius: 5,
         margin: 12,
         shadowColor: '#000',
         shadowOffset: {
@@ -42,14 +47,19 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.32,
         elevation: 9,
         width: (Dimensions.get('window').width * 80) / 100,
-        borderRadius: 0,
         flex: 1,
-        paddingTop: 0,
+        padding: 0,
     },
     image: {
-        marginTop: 5,
+        width: '95%',
+        marginLeft: 7,
+        marginTop: -6,
         height: 300,
         resizeMode: 'contain',
     },
+    podcastTitle: {
+        fontFamily: 'TitiliumLight',
+        marginTop: -10,
+    }
 });
 export default ListPodcast;
