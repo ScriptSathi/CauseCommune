@@ -1,22 +1,48 @@
 import React, { FC } from 'react';
-import { Card } from 'react-native-paper';
-import { FlatList, StyleSheet, View } from 'react-native';
+import {ActivityIndicator, Card} from 'react-native-paper';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useQuery } from 'react-query';
+import {useInfiniteQuery} from 'react-query';
 import getSeriesQuery from '../../queries/getSeries.query';
+
 
 const CarouselComponent: FC = () => {
     const navigation = useNavigation();
-    const { data: series, isLoading, refetch } = useQuery('/series', getSeriesQuery);
+    const {
+        data: series,
+        isLoading,
+        fetchNextPage,
+        status} = useInfiniteQuery('/series',
+        ({ pageParam = 1 })  => getSeriesQuery(pageParam),
+        {  getNextPageParam: (lastPage, pages) => pages.length + 1}
+    );
+
+    const allPagesArray:any = []
+    if (series?.pages) {
+        series.pages.forEach(itemsArray => allPagesArray.push(itemsArray));
+    } else {
+        null;
+    }
+    const flatSeries = allPagesArray.flat()
+
+
+
     return (
         <View style={styles.container}>
+            {status === 'loading' && (
+                <Text>
+                    <ActivityIndicator size='small' color='#E73059' />
+                </Text>
+            )}
+            {status === 'error' && <Text>Contacter l'administrateur</Text>}
             <FlatList
                 refreshing={isLoading}
-                onRefresh={() => refetch()}
-                data={series}
+                data={flatSeries}
                 horizontal
                 bounces={false}
                 showsHorizontalScrollIndicator={false}
+                onEndReachedThreshold={1}
+                onEndReached={() => fetchNextPage()}
                 renderItem={({ item: serie }) => (
                     <View>
                         <Card
@@ -40,6 +66,7 @@ const CarouselComponent: FC = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        textAlign: 'center',
     },
     card: {
         borderRadius: 5,

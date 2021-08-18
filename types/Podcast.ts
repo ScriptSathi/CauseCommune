@@ -28,6 +28,8 @@ export interface Podcast {
     yoast_head: string;
     yoast_head_json: YoastHeadJson;
     _links: Links;
+    page:number
+    nextCursor:number
 }
 
 export interface Guid {

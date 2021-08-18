@@ -1,16 +1,31 @@
 import * as React from 'react';
 import { FC } from 'react';
 import ListPodcast from './ListPodcast';
-import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
-import { useQuery } from 'react-query';
+import { Button, Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
+import { useInfiniteQuery } from 'react-query';
 import getAllPodcastsQuery from '../../queries/getAllPodcast.query';
 import { ActivityIndicator } from 'react-native-paper';
 import useCustomFonts from '../../hooks/useCustomFonts';
 
 const PodcastComponent: FC = () => {
-    const { data: podcasts, status } = useQuery('/podcasts', getAllPodcastsQuery);
+    const {
+        data: podcasts,
+        isLoading,
+        fetchNextPage,
+        status,
+    } = useInfiniteQuery('/podcasts', ({ pageParam = 1 }) => getAllPodcastsQuery(pageParam), {
+        getNextPageParam: (lastPage, pages) => pages.length + 1,
+    });
     const [loaded] = useCustomFonts();
     if (!loaded) return null;
+
+    const allPagesArray: any = [];
+    if (podcasts?.pages) {
+        podcasts.pages.forEach(itemsArray => allPagesArray.push(itemsArray));
+    } else {
+        null;
+    }
+    const flatPodcasts = allPagesArray.flat();
 
     return (
         <View style={styles.container}>
@@ -22,10 +37,20 @@ const PodcastComponent: FC = () => {
             )}
             {status === 'error' && <Text>Contacter l'administrateur</Text>}
             <FlatList
-                data={podcasts}
+                refreshing={isLoading}
+                data={flatPodcasts}
+                bounces={false}
+                showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => <ListPodcast item={item} />}
                 keyExtractor={item => item.id.toString()}
+                onEndReachedThreshold={0.8}
+                onEndReached={() => fetchNextPage()}
             />
+            {/*<Button*/}
+            {/*    title={'Podcast suivant'}*/}
+            {/*    onPress={() => fetchNextPage()}*/}
+            {/*    // disabled={!hasNextPage || isFetchingNextPage}*/}
+            {/*/>*/}
         </View>
     );
 };
