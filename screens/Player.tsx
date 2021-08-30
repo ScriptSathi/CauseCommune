@@ -4,19 +4,14 @@ import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Title } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 import useAudioPlayer from '../hooks/useAudioPlayer';
-import { useInfiniteQuery } from 'react-query';
-import getAllPodcastsQuery from '../queries/getAllPodcast.query';
+import { useQuery } from 'react-query';
+
 import getPlayerArguments from '../fns/getPlayerArguments';
+import getPlayerPodcast from '../queries/getPlayerPodcast.query';
 
 const Player: FC = () => {
     // Testing a way to maintain aspect ratio on images without knowing its dimensions in advance
-    const { data: podcasts, status } = useInfiniteQuery(
-        '/series',
-        ({ pageParam = 1 }) => getAllPodcastsQuery(pageParam),
-        {
-            getNextPageParam: (lastPage, pages) => pages.length + 1,
-        }
-    );
+    const { data: podcasts } = useQuery('/player', getPlayerPodcast);
     const route = useRoute();
     const { mp3, title, image } = useMemo(() => {
         const params = route.params as { mp3: string; title: string; image: string };
