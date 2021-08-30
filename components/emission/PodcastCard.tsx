@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 12,
         backgroundColor: 'white',
         width: 177,
+        height: 200,
         shadowColor: '#000000',
         shadowOffset: {
             width: 0,
@@ -113,16 +114,19 @@ const styles = StyleSheet.create({
     button: {
         width: '80%',
         height: 30,
+        display: "flex",
         backgroundColor: '#E73059',
         fontSize: 5,
         alignContent: 'flex-end',
         alignSelf: 'center',
-        marginBottom: 15,
-        marginTop: 10,
+        position: 'absolute',
+        bottom: 20,
+        justifyContent: 'center',
     },
     buttonTxt: {
-        marginTop: -5,
         fontSize: 10,
+        alignSelf: 'center',
+
     }
 });
 
