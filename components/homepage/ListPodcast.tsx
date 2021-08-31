@@ -22,8 +22,8 @@ const ListPodcast: FC<ListPodcastProps> = ({ item }) => {
     return (
         <View>
             <Card style={styles.card} onPress={onPress}>
-                <Image source={{ uri: item.episode_player_image }} style={styles.image} />
                 <Card.Content>
+                <Image source={{ uri: item.episode_player_image }} style={styles.image} />
                     <Title style={styles.podcastTitle}>{decode(item.title.rendered)}</Title>
                 </Card.Content>
             </Card>

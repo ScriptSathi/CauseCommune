@@ -12,6 +12,8 @@ const PodcastComponent: FC = () => {
         data: podcasts,
         isLoading,
         fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
         status,
     } = useInfiniteQuery('/podcasts', ({ pageParam = 1 }) => getAllPodcastsQuery(pageParam), {
         getNextPageParam: (lastPage, pages) => pages.length + 1,
@@ -26,6 +28,11 @@ const PodcastComponent: FC = () => {
         null;
     }
     const flatPodcasts = allPagesArray.flat();
+
+    const Separator = () => (
+        <View style={styles.separator} />
+    );
+
 
     return (
         <View style={styles.container}>
@@ -43,14 +50,16 @@ const PodcastComponent: FC = () => {
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => <ListPodcast item={item} />}
                 keyExtractor={item => item.id.toString()}
-                onEndReachedThreshold={0.8}
-                onEndReached={() => fetchNextPage()}
+
             />
-            {/*<Button*/}
-            {/*    title={'Podcast suivant'}*/}
-            {/*    onPress={() => fetchNextPage()}*/}
-            {/*    // disabled={!hasNextPage || isFetchingNextPage}*/}
-            {/*/>*/}
+            <Button
+                color='#E73059'
+                title={'Podcast suivant'}
+                onPress={() => fetchNextPage()}
+                disabled={!hasNextPage || isFetchingNextPage}
+                accessibilityLabel="podcasts suivant"
+            />
+            <Separator />
         </View>
     );
 };
@@ -69,6 +78,11 @@ const styles = StyleSheet.create({
     },
     podcastFrame: {
         width: (Dimensions.get('window').width * 87) / 100,
+    },
+    separator: {
+        marginVertical: 8,
+        borderBottomColor: '#FEF7F9',
+        borderBottomWidth: StyleSheet.hairlineWidth,
     },
 });
 

@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         textAlign: 'center',
+        alignItems: 'center',
     },
     card: {
         borderRadius: 5,
