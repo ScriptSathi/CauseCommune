@@ -38,7 +38,7 @@ const PodcastCard: FC<PodcastCardProps> = ({ podcast, podcastTitle }) => {
                 </Title>
                 <View style={styles.frameDateText}>
                     <Text style={styles.dateText}>
-                        {"Publié le : " + formatDateTimeToString(date)}
+                        {"Publié le : \n" + formatDateTimeToString(date)}
                     </Text>
                 </View>
                 <View style={styles.frameContentPodcast}>
@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     },
     dateText: {
         fontSize: 11,
+        textAlign: 'center',
     },
     frameContentPodcast: {
         alignSelf: 'center',
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
         alignContent: 'flex-end',
         alignSelf: 'center',
         position: 'absolute',
-        bottom: 20,
+        bottom: 12,
         justifyContent: 'center',
     },
     buttonTxt: {
