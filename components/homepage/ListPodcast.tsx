@@ -51,11 +51,9 @@ const styles = StyleSheet.create({
         padding: 0,
     },
     image: {
-        width: '95%',
-        marginLeft: 6,
-        marginTop: -5,
-        height: 300,
         resizeMode: 'contain',
+        aspectRatio: 1,
+        flex: 1,
     },
     podcastTitle: {
         fontFamily: 'TitiliumLight',
