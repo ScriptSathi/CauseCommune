@@ -1,14 +1,13 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import AudioPlayer from '../components/player/AudioPlayer';
 import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { ActivityIndicator, Title } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 import useAudioPlayer from '../hooks/useAudioPlayer';
-import { useQuery } from 'react-query';
+import { isError, useQuery } from 'react-query';
 
 import getPlayerArguments from '../fns/getPlayerArguments';
 import getPlayerPodcast from '../queries/getPlayerPodcast.query';
-
 const errorLoadingMessage =  "Podcast indisponible";
 
 const Player: FC = () => {
@@ -30,18 +29,22 @@ const Player: FC = () => {
     }, [route.params]);
 
     const { isLoading } = useAudioPlayer();
-    let closeActivityIndicator = () => setTimeout(() => setAnimating(false), 10000)
-    closeActivityIndicator()
+    useEffect(() => {
+        const timeOut = setTimeout(() => {
+       isLoading && setAnimating(false)
+        }, 10000);
+        return () => clearTimeout(timeOut)
+    }, [])
+
+console.log(animating)
+
     return (
+
         <SafeAreaView style={styles.root}>
             <View style={styles.imageContainer}>
                 <Image source={{ uri: image }} style={[styles.image]} />
-                {isLoading && <ActivityIndicator animating={animating} />}
-                {!animating &&
-                <Text style={styles.errorMessage}>
-                    {errorLoadingMessage}
-                </Text>
-                }
+                {isLoading && <ActivityIndicator animating={animating}/>}
+                {!animating && isLoading && <Text style={styles.errorMessage}>{errorLoadingMessage}</Text>}
             </View>
 
             <Title style={styles.title}>{title}</Title>
