@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     card: {
-        marginTop: -20,
         alignSelf: 'center',
         backgroundColor: 'white',
         shadowColor: '#000000',

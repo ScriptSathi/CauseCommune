@@ -56,8 +56,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     podcastTitle: {
-        fontFamily: 'TitiliumLight',
-        marginTop: -10,
+        fontFamily: 'TitiliumRegular',
     }
 });
 export default ListPodcast;

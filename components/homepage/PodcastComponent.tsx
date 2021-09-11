@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         fontSize: 30,
         textAlign: 'center',
-        fontFamily: 'TitiliumRegular',
+        fontFamily: 'MontserratMedium',
     },
     podcastFrame: {
         width: (Dimensions.get('window').width * 87) / 100,

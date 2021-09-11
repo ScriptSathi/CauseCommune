@@ -6,6 +6,7 @@ const getPlayerArguments = (podcast: Podcast) => {
         mp3: encodeURI(podcast.meta.audio_file),
         title: decode(podcast.title.rendered),
         image: podcast.episode_player_image,
+        link: podcast.link,
     };
 };
 

@@ -71,14 +71,17 @@ const styles = StyleSheet.create({
     },
     timeCode: {
         marginTop: 5,
+        top: 80,
         marginBottom: 12,
     },
     controls: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        top: 35,
     },
     slider: {
+        top: 40,
         height: 20,
     },
 });
