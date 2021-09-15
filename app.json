@@ -20,7 +20,7 @@
     ],
     "ios": {
       "infoPlist": {
-        "UIBackgroundModes": ["location", "fetch"]
+        "UIBackgroundModes": ["audio","fetch"]
       },
       "supportsTablet": true,
       "bundleIdentifier": "com.floriana.causecommune"
