@@ -39,6 +39,7 @@ const AudioPlayerProvider: FC = ({ children }) => {
     const [shouldPlayOnRelease, setShouldPlayOnRelease] = useState(false);
     const [mp3, setMp3] = useState<null | string>(null);
 
+
     /*useEffect(() => {
         if (mp3) {
             const init = async () => {
@@ -63,8 +64,13 @@ const AudioPlayerProvider: FC = ({ children }) => {
         if (mp3) {
             const init = async () => {
                 try {
+                    await Audio.requestPermissionsAsync();
+                    await Audio.setAudioModeAsync({
+                        staysActiveInBackground: true
+                    });
                     const sound = new Audio.Sound();
-                    const playbackStatus = (await sound.loadAsync(
+                    const playbackStatus = (
+                        await sound.loadAsync(
                         { uri: mp3 },
                         { shouldPlay: true }
                     )) as PlaybackStatus;
@@ -74,18 +80,14 @@ const AudioPlayerProvider: FC = ({ children }) => {
                     setPlaybackStatus(playbackStatus);
                     setSound(sound);
                 } catch (e) {
-                    console.error(e);
+                   // console.error(e);
                 }
             };
-            init();
+          init();
         }
     }, [mp3, setSound, setPlaybackStatus]);
 
     const onPlayPausePress = useCallback(async () => {
-        await Audio.requestPermissionsAsync();
-        await Audio.setAudioModeAsync({
-            staysActiveInBackground: true,
-        });
         if (sound && playbackStatus) {
             if (playbackStatus?.isPlaying) {
                 setShouldPlayOnRelease(false);
@@ -100,15 +102,18 @@ const AudioPlayerProvider: FC = ({ children }) => {
         () => sound?.setPositionAsync((playbackStatus?.positionMillis || 0) + FORWARD_AND_REWIND_MS),
         [sound, playbackStatus?.positionMillis, FORWARD_AND_REWIND_MS]
     );
+
     const rewind = useCallback(
         () => sound?.setPositionAsync((playbackStatus?.positionMillis || 0) - FORWARD_AND_REWIND_MS),
         [sound, playbackStatus?.positionMillis, FORWARD_AND_REWIND_MS]
     );
+
     const reset = useCallback(() => sound?.setPositionAsync(0), [sound?.setPositionAsync]);
+
     const stop = useCallback(async () => {
-        await sound?.unloadAsync();
         setSound(null);
         setPlaybackStatus(null);
+        return sound?.unloadAsync();
     }, [sound, setSound, setPlaybackStatus]);
 
     const onSlidingStart = useCallback(

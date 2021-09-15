@@ -10,6 +10,7 @@ import getPlayerArguments from '../../fns/getPlayerArguments';
 
 const PodcastCard: FC<PodcastCardProps> = ({ podcast, podcastTitle }) => {
     const navigation = useNavigation();
+
     const title = useMemo(() => decode(podcast.title.rendered), [podcast.title.rendered]);
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
