@@ -82,12 +82,16 @@ const AudioPlayerProvider: FC = ({ children }) => {
     }, [mp3, setSound, setPlaybackStatus]);
 
     const onPlayPausePress = useCallback(async () => {
+        await Audio.requestPermissionsAsync();
+        await Audio.setAudioModeAsync({
+            staysActiveInBackground: true,
+        });
         if (sound && playbackStatus) {
             if (playbackStatus?.isPlaying) {
                 setShouldPlayOnRelease(false);
-                await sound.pauseAsync();
+                return sound.pauseAsync();
             } else {
-                await sound.playAsync();
+                return sound.playAsync();
             }
         }
     }, [sound, playbackStatus]);

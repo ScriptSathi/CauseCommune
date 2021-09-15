@@ -19,6 +19,9 @@
       "**/*"
     ],
     "ios": {
+      "infoPlist": {
+        "UIBackgroundModes": ["audio","fetch"]
+      },
       "supportsTablet": true,
       "bundleIdentifier": "com.floriana.causecommune"
     },
