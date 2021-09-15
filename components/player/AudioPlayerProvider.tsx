@@ -111,9 +111,9 @@ const AudioPlayerProvider: FC = ({ children }) => {
     const reset = useCallback(() => sound?.setPositionAsync(0), [sound?.setPositionAsync]);
 
     const stop = useCallback(async () => {
+        await sound?.unloadAsync();
         setSound(null);
         setPlaybackStatus(null);
-        return sound?.unloadAsync();
     }, [sound, setSound, setPlaybackStatus]);
 
     const onSlidingStart = useCallback(
