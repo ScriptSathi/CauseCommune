@@ -20,7 +20,7 @@ const Player: FC = () => {
     const { mp3, title, image, link } = useMemo(() => {
         const params = route.params as { mp3: string; title: string; image: string; link: string };
         if (params?.mp3 && params?.title && params?.image && params?.link){
-           // console.log(params?.link)
+            console.log(params?.link)
             return params;
         }
         if (podcasts) {
