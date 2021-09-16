@@ -89,9 +89,9 @@ const AudioPlayerProvider: FC = ({ children }) => {
         if (sound && playbackStatus) {
             if (playbackStatus?.isPlaying) {
                 setShouldPlayOnRelease(false);
-                return sound.pauseAsync();
+                await sound.pauseAsync();
             } else {
-                return sound.playAsync();
+                await sound.playAsync();
             }
         }
     }, [sound, playbackStatus]);
