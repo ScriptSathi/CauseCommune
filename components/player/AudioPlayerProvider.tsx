@@ -63,11 +63,18 @@ const AudioPlayerProvider: FC = ({ children }) => {
         if (mp3) {
             const init = async () => {
                 try {
-                    const sound = new Audio.Sound();
                     await Audio.requestPermissionsAsync();
-                    await Audio.setAudioModeAsync({
+                    await  Audio.setAudioModeAsync({
+                        allowsRecordingIOS: false,
                         staysActiveInBackground: true,
+                        interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+                        playsInSilentModeIOS: true,
+                        shouldDuckAndroid: true,
+                        interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+                        playThroughEarpieceAndroid: false
                     });
+
+                    const sound = new Audio.Sound();
                     const playbackStatus = (await sound.loadAsync(
                         { uri: mp3 },
                         { shouldPlay: true }
