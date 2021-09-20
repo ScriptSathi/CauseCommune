@@ -54,7 +54,7 @@ const PodcastComponent: FC = () => {
             />
             <Button
                 color='#E73059'
-                title={'Podcast suivant'}
+                title={'Podcasts suivants'}
                 onPress={() => fetchNextPage()}
                 disabled={!hasNextPage || isFetchingNextPage}
                 accessibilityLabel="podcasts suivant"

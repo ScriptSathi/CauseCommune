@@ -48,11 +48,11 @@ const Player: FC = () => {
         <SafeAreaView style={styles.root}>
             <View style={styles.imageContainer}>
                 <Image source={{ uri: image }} style={[styles.image]} />
-                {isLoading && <ActivityIndicator animating={animating}/>}
-                {!animating && isLoading && <Text style={styles.errorMessage}>{errorLoadingMessage}</Text>}
                 <View style={styles.share}>
                     <Shares  urlLink={link} />
                 </View>
+                {isLoading && <ActivityIndicator animating={animating}/>}
+                {!animating && isLoading && <Text style={styles.errorMessage}>{errorLoadingMessage}</Text>}
             </View>
             <Title style={styles.title}>{title}</Title>
             <AudioPlayer mp3={mp3} style={styles.audioPlayer} />
