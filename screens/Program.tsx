@@ -45,7 +45,7 @@ const Program: FC = () => {
             <Content kind={subtitle} content={description} />
             <Text style={styles.podcast_title}>Tous les podcasts</Text>
             {status === 'loading' && (
-                <Text style={{ alignItems: 'center' }}>
+                <Text style={{ alignItems: 'center',textAlign: 'center', }}>
                     <ActivityIndicator size='small' color='#E73059' />
                 </Text>
             )}
