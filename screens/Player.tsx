@@ -48,10 +48,12 @@ const Player: FC = () => {
         <SafeAreaView style={styles.root}>
             <View style={styles.imageContainer}>
                 <Image source={{ uri: image }} style={[styles.image]} />
-                <View style={styles.share}>
+                {!isLoading && <View style={styles.share}>
                     <Shares  urlLink={link} />
-                </View>
-                {isLoading && <ActivityIndicator animating={animating}/>}
+                </View>}
+                {isLoading && <View style={styles.loader}>
+                    <ActivityIndicator animating={animating}/>
+                </View>}
                 {!animating && isLoading && <Text style={styles.errorMessage}>{errorLoadingMessage}</Text>}
             </View>
             <Title style={styles.title}>{title}</Title>
@@ -93,6 +95,9 @@ const styles = StyleSheet.create({
     errorMessage: {
         marginBottom: 5,
         color: '#E73059',
+    },
+    loader: {
+        top: 45,
     }
 });
 
